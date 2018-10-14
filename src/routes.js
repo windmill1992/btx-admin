@@ -4,14 +4,12 @@ import Home from '@/views/Home'
 
 import Index0 from '@/views/home/index'
 import Trial from '@/views/home/trial'
-import Feedback from '@/views/home/feedback'
+import Merchant from '@/views/home/merchant'
 import Guide from '@/views/home/guide'
 import Comment from '@/views/home/comment'
 import TbGoods from '@/views/home/tbGoods'
 
 import YupType from '@/views/system/yupType'
-import GuideTag from '@/views/system/guideTag'
-import CopyWrite from '@/views/system/copyWrite'
 
 import Users from '@/views/user/users'
 
@@ -31,12 +29,12 @@ let routes = [
     {
         path: '/',
         component: Home,
-        name: '商品管理',
+        name: '拼团管理',
         iconCls: 'el-icon-goods',
         children: [
             { path: '/index', component: Index0, name: '首页' },
+            { path: '/merchant', component: Merchant, name: '商家管理' },
             { path: '/trial', component: Trial, name: '试用' },
-            { path: '/feedback', component: Feedback, name: '反馈' },
             { path: '/guide', component: Guide, name: '指南' },
             { path: '/tbGoods', component: TbGoods, name: '淘宝客' },
             { path: '/comment', component: Comment, name: '评论' },
@@ -45,12 +43,10 @@ let routes = [
     {
         path: '/system',
         component: Home,
-        name: '系统管理',
+        name: '资金管理',
         iconCls: 'el-icon-setting',
         children: [
             { path: '/yupType', component: YupType, name: 'yup类型' },
-            { path: '/guideTag', component: GuideTag, name: '指南标签' },
-            { path: '/copyWrite', component: CopyWrite, name: '文案库' },
         ]
     },
     {

@@ -23,13 +23,13 @@ module.exports = {
   },
   dev: {
     env: require('./dev.env'),
-    port: 8090,
+    port: 8091,
     autoOpenBrowser: false,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        target: 'http://apidev.yupfashion.cn/yup',
+        target: 'http://btx.yupfashion.cn/btx/btx-rest',
         // target: 'http://api.yupfashion.cn/yup',
         // secure: false,
         changeOrigin: true,

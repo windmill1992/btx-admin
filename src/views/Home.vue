@@ -75,7 +75,7 @@
 export default {
   data() {
     return {
-      sysName: "YUP后台管理系统",
+      sysName: "抱团学后台管理系统",
       collapsed: false,
       sysUserName: "",
       sysUserAvatar: "",

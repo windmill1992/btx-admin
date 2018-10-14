@@ -2,25 +2,17 @@
     <el-row>
         <el-col :span="24" class="tool-bar">
             <p class="title fl">用户列表</p>
-            <el-input v-model="userName" placeholder="搜索用户名" class="fr"></el-input>
+            <div class="fr">
+                <el-input v-model="userName" placeholder="搜索用户名" class="fl"></el-input>
+                <el-button type="primary" @click="search">搜索</el-button>
+            </div>
         </el-col>
         <el-col :span="24">
             <el-table :data="list" highlight-current-row v-loading="loading" border style="width: 100%;height: 80%;">
                 <el-table-column type="index" label="#" width="60"></el-table-column>
-                <el-table-column prop="userId" label="用户ID" width="80" show-overflow-tooltip></el-table-column>
-                <el-table-column prop="userName" label="用户昵称" min-width="150" show-overflow-tooltip></el-table-column>
-                <!-- <el-table-column prop="mobile" label="手机号" width="150" show-overflow-tooltip></el-table-column>
-                <el-table-column prop="regisTime" label="注册时间" :formatter="formatTime" 
-                    width="180" show-overflow-tooltip>
-                </el-table-column>
-                <el-table-column prop="city" label="所在城市" width="150" show-overflow-tooltip></el-table-column>
-                <el-table-column prop="vip" label="会员状态" width="100" show-overflow-tooltip></el-table-column>
-                <el-table-column prop="from" label="用户来源" width="100" show-overflow-tooltip></el-table-column> -->
-                <el-table-column label="操作" width="200">
-                    <template slot-scope="scope">
-                        <!-- <a href="javascript:;" class="icon icon-edit"></a> -->
-                    </template>
-                </el-table-column>
+                <el-table-column prop="userId" label="用户ID" width="80"></el-table-column>
+                <el-table-column prop="userName" label="昵称" min-width="150"></el-table-column>
+                <el-table-column prop="avatar" label="头像" min-width="250" show-overflow-tooltip></el-table-column>
             </el-table>
             <el-pagination @current-change="curChange" :current-page="curPage" 
                 :page-size="pageSize" :total="total" layout="total, prev, pager, next" class="page fr">
@@ -41,7 +33,7 @@ export default {
       pageSize: 20,
       total: 0,
       loading: false,
-      userName: ''
+      userName: '',
     };
   },
   methods: {
@@ -50,28 +42,33 @@ export default {
         let data = {
             pageIndex: this.curPage,
             pageSize: this.pageSize,
-            userName: this.userName
+            keywords: this.userName,
         };
-        this.$http.post(`${baseUrl}/yup-rest/manage/user-list`, data)
+        this.$http.post(`${baseUrl}/manage/user-list`, data)
         .then(res => {
             this.loading = false;
-            if(res.data.resultCode == 200){
+            if(res.data.resultCode == 200 && res.data.resultData){
                 let r = res.data.resultData;
-                if(r){
-                    this.list = r.list;
-                    this.total = r.total;
-                }
+                this.list = r.list;
+                this.total = r.total;
             }else{
+                this.list = [];
+                this.total = 0;
                 this.$message.error(res.data.resultMsg);
             }
         })
-        .catch(() => {
+        .catch(e => {
             this.loading = false;
             this.$message.error('未知错误！');
+            console.log(e);
         })
     },
     curChange(idx) {
         this.curPage = idx;
+        this.getUserList();
+    },
+    search() {
+        this.curPage = 1;
         this.getUserList();
     },
     formatTime(row, column){
@@ -87,6 +84,10 @@ export default {
             _this.getUserList();
         }
       }, false);
+  },
+  beforeDestroy() {
+      let _this = this;
+      window.removeEventListener('keypress', function(e){}, false);
   }
 };
 </script>

@@ -3,7 +3,7 @@
     <!-- <h3 class="title">系统登录</h3> -->
     <div class="left">
       <img src="./../assets/img/logo.png" alt="logo">
-      <p>YUP-共享潮牌电商</p>
+      <p>抱团学</p>
       <p>后台管理系统</p>
     </div>
     <div class="right">
@@ -30,7 +30,7 @@
 
 <script>
 import { baseUrl } from '../api/baseUrl';
-import md5 from 'js-md5'
+import md5 from 'js-md5';
 
 export default {
   data() {
@@ -62,10 +62,10 @@ export default {
           this.logining = true;
           var loginParams = { username: this.formdata.account, password: '' };
           let pw = md5(this.formdata.password);
-          this.$http.post(`${baseUrl}/yup-rest/login`, { 
+          this.$http.post(`${baseUrl}/login`, { 
             account: this.formdata.account,
             loginMethod: 1,
-            password: pw
+            password: pw,
           })
           .then(res => {
             this.logining = false;
@@ -82,7 +82,7 @@ export default {
             }else{
               this.$message.error(res.data.resultMsg);
             }
-            })
+          })
           .catch(() => {
             this.logining = false;
             this.$message.error('登录错误！');
@@ -125,7 +125,7 @@ export default {
     margin: 180px auto;
     width: 650px;
     padding: 65px 45px 55px 120px;
-    background: #f2f2f2;
+    background: #fff;
     border: 1px solid #eaeaea;
     box-shadow: 0 0 25px #cac6c6;
     overflow: hidden;
@@ -157,9 +157,13 @@ export default {
     background: #fff;
     padding: 20px 20px 0;
   }
+  .right .el-input{
+    width: 100%;
+  }
   .right .el-input__inner{
     border: none;
     border-bottom: 1px solid #f1f1f1;
+    width: 100%;
   }
   .right .yzm{
     width: 100px;

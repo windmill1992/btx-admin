@@ -13,6 +13,7 @@ import axios from './http/http'
 axios.defaults.headers = {
   'content-type': 'application/json',
   'userId': 0,
+  "applicationId": 3,
 }
 Vue.prototype.$http = axios;
 
