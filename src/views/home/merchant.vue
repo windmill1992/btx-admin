@@ -3,7 +3,7 @@
         <el-col :span="24" class="tool-bar">
             <p class="title fl">商家列表</p>
             <div class="fr">
-                <el-input v-model="keywords" placeholder="搜索用户手机号／用户名" class="fl"></el-input>
+                <el-input v-model="keywords" placeholder="搜索用户手机号／用户名" class="fl" style="width: 200px;"></el-input>
                 <el-select v-model="auditStatus" placeholder="状态" class="fl">
                     <el-option value="" label="全部"></el-option>
                     <el-option :value="1" label="待审核"></el-option>
@@ -16,16 +16,18 @@
         <el-col :span="24">
             <el-table :data="list" highlight-current-row v-loading="loading" border style="width: 100%;height: 90%;">
                 <el-table-column type="index" label="序号" width="80"></el-table-column>
-                <el-table-column prop="userId" label="商户ID" width="100"></el-table-column>
-                <el-table-column prop="merchantName" label="商家名称" width="180"></el-table-column>
-                <el-table-column prop="city" label="所在城市" width="180"></el-table-column>
+                <el-table-column prop="userId" label="商户ID" width="80"></el-table-column>
+                <el-table-column prop="merchantName" label="商家名称" width="220" show-overflow-tooltip></el-table-column>
+                <el-table-column prop="city" label="所在城市" width="150"></el-table-column>
                 <el-table-column prop="merchantIndustry" label="所处行业" width="180"></el-table-column>
-                <el-table-column prop="linkMobile" label="联系电话" width="180"></el-table-column>
-                <el-table-column label="操作" min-width="120">
+                <el-table-column prop="linkMobile" label="联系电话" width="130"></el-table-column>
+                <el-table-column label="操作" min-width="150">
                     <template slot-scope="scope">
-                        <a href="javascript:;" class="link" @click="showDetail(scope.row)">查看详情</a>
-                        <el-button type="primary" size="small" @click="pass(scope.row.userId, 1)">通过</el-button>
-                        <el-button type="primary" v-if="scope.row.state == 1" @click="pass(scope.row.userId, 0)">不通过</el-button>
+                        <div class="flex fcen">
+                            <a href="javascript:;" class="btn" @click="showDetail(scope.row)">详情</a>
+                            <el-button type="success" class="btn" v-if="scope.row.auditStatus == 1" size="small" @click="pass(scope.row.userId, 1)">通过</el-button>
+                            <el-button type="danger" class="btn" v-if="scope.row.auditStatus == 1" size="small" @click="pass(scope.row.userId, 0)">不通过</el-button>
+                        </div>
                     </template>
                 </el-table-column>
             </el-table>
@@ -164,6 +166,15 @@ export default {
 
 <style scoped>
 @import url(./../../assets/css/home/table.css);
+.btn{
+    margin-right: 5px;
+    height: 20px;
+    line-height: 20px;
+    padding: 0 10px;
+}
+.el-input, .el-select{
+    margin-right: 10px;
+}
 .edit-d .logo{
     color: #000;
     text-align: center;

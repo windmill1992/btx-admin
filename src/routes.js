@@ -3,13 +3,7 @@ import NotFound from '@/views/404'
 import Home from '@/views/Home'
 
 import Index0 from '@/views/home/index'
-import Trial from '@/views/home/trial'
 import Merchant from '@/views/home/merchant'
-import Guide from '@/views/home/guide'
-import Comment from '@/views/home/comment'
-import TbGoods from '@/views/home/tbGoods'
-
-import YupType from '@/views/system/yupType'
 
 import Users from '@/views/user/users'
 
@@ -34,10 +28,6 @@ let routes = [
         children: [
             { path: '/index', component: Index0, name: '首页' },
             { path: '/merchant', component: Merchant, name: '商家管理' },
-            { path: '/trial', component: Trial, name: '试用' },
-            { path: '/guide', component: Guide, name: '指南' },
-            { path: '/tbGoods', component: TbGoods, name: '淘宝客' },
-            { path: '/comment', component: Comment, name: '评论' },
         ]
     },
     {
@@ -46,7 +36,7 @@ let routes = [
         name: '资金管理',
         iconCls: 'el-icon-setting',
         children: [
-            { path: '/yupType', component: YupType, name: 'yup类型' },
+            
         ]
     },
     {
