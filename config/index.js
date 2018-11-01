@@ -29,7 +29,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        target: 'http://btx.yupfashion.cn/btx/btx-rest',
+        target: 'http://api.baotuanxue.com/btx/btx-rest',
         // target: 'http://api.yupfashion.cn/yup',
         // secure: false,
         changeOrigin: true,
