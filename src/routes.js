@@ -4,6 +4,9 @@ import Home from '@/views/Home'
 
 import Index0 from '@/views/home/index'
 import Merchant from '@/views/home/merchant'
+import Orders from '@/views/home/orders'
+
+import Withdraw from '@/views/finance/withdraw'
 
 import Users from '@/views/user/users'
 
@@ -28,6 +31,7 @@ let routes = [
         children: [
             { path: '/index', component: Index0, name: '首页' },
             { path: '/merchant', component: Merchant, name: '商家管理' },
+            { path: '/orders', component: Orders, name: '订单管理' },
         ]
     },
     {
@@ -36,7 +40,7 @@ let routes = [
         name: '资金管理',
         iconCls: 'el-icon-setting',
         children: [
-            
+            { path: '/withdraw', component: Withdraw, name: '提现管理' },
         ]
     },
     {

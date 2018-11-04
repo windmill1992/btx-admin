@@ -17,7 +17,7 @@
             <el-table :data="list" highlight-current-row v-loading="loading" border style="width: 100%;height: 90%;">
                 <el-table-column type="index" label="序号" width="80"></el-table-column>
                 <el-table-column prop="userId" label="商户ID" width="80"></el-table-column>
-                <el-table-column prop="merchantName" label="商家名称" width="220" show-overflow-tooltip></el-table-column>
+                <el-table-column prop="merchantName" label="商家名称" min-width="220" show-overflow-tooltip></el-table-column>
                 <el-table-column prop="city" label="所在城市" width="150"></el-table-column>
                 <el-table-column prop="merchantIndustry" label="所处行业" width="180"></el-table-column>
                 <el-table-column prop="linkMobile" label="联系电话" width="130"></el-table-column>

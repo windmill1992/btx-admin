@@ -1,18 +1,14 @@
 <template>
     <el-row>
         <el-col :span="24" class="tool-bar">
-            <p class="title fl">购买订单</p>
+            <p class="title fl">提现列表</p>
             <div class="fr">
                 <el-input v-model="keywords" placeholder="搜索用户手机号／用户名" class="fl" style="width: 200px;"></el-input>
-                <el-select v-model="orderStatus" placeholder="订单状态" class="fl">
+                <el-select v-model="orderStatus" placeholder="提现状态" class="fl">
                     <el-option value="" label="全部"></el-option>
                     <el-option :value="1" label="进行中"></el-option>
                     <el-option :value="2" label="已完成"></el-option>
-                    <el-option :value="3" label="已失效"></el-option>
-                </el-select>
-                <el-select v-model="payType" placeholder="购买类型" class="fl">
-                    <el-option :value="1" label="拼团购买"></el-option>
-                    <el-option :value="2" label="直接购买"></el-option>
+                    <el-option :value="3" label="已失败"></el-option>
                 </el-select>
                 <el-button type="primary" class="fl" @click="search">搜索</el-button>
             </div>
@@ -22,20 +18,8 @@
                 <el-table-column type="index" label="序号" width="80"></el-table-column>
                 <el-table-column prop="orderNo" label="订单编号" width="100"></el-table-column>
                 <el-table-column prop="merchantName" label="商家名称" min-width="220" show-overflow-tooltip></el-table-column>
-                <template v-if="payType == 2">
-                    <el-table-column prop="payPrice" label="支付金额" width="120"></el-table-column>
-                    <el-table-column prop="payUserName" label="支付用户" width="180"></el-table-column>
-                </template>
-                <template v-else-if="payType == 1">
-                    <el-table-column prop="groupCount" label="拼团人数" width="120"></el-table-column>
-                    <el-table-column prop="payCount" label="支付人数" width="180"></el-table-column>
-                </template>
-                <el-table-column label="订单状态" width="120">
-                    <template slot-scope="scope">
-                        <span v-if="payType == 1">拼团购买</span>
-                        <span v-else>直接购买</span>
-                    </template>
-                </el-table-column>
+                <el-table-column prop="money" label="提现金额" width="120"></el-table-column>
+                <el-table-column prop="time" label="提现时间" width="150"></el-table-column>
                 <el-table-column label="操作" min-width="150">
                     <template slot-scope="scope">
                         <div class="flex fcen">
@@ -52,15 +36,8 @@
             <div class="edit-d">
                 <p class="txt">订单编号：{{detailInfo.orderNo}}</p>
                 <p class="txt">商家名称：{{detailInfo.merchantName}}</p>
-                <template v-if="payType == 2">
-                    <p class="txt">支付金额：{{detailInfo.payPrice}}</p>
-                    <p class="txt">支付用户：{{detailInfo.payUserName}}</p>
-                </template>
-                <template v-else-if="payType == 1">
-                    <p class="txt">拼团名称：{{detailInfo.groupBuyingName}}</p>
-                    <p class="txt">拼团人数：{{detailInfo.groupCount}}</p>
-                    <p class="txt">支付人数：{{detailInfo.payCount}}</p>
-                </template>
+                <p class="txt">提现金额{{detailInfo.payPrice}}</p>
+                <p class="txt">提现时间{{detailInfo.payUserName}}</p>
             </div>
         </el-dialog>
     </el-row>
@@ -78,9 +55,8 @@ export default {
             total: 0,
             loading: false,
             orderStatus: '',
-            payType: 1,
             keywords: '',
-            title: '订单详情',
+            title: '提现详情',
             showModal: false,
             detailInfo: {},
         }
@@ -100,7 +76,6 @@ export default {
                 pageIndex: this.curPage, 
                 pageSize: this.pageSize,
                 orderStatus: this.orderStatus,
-                payType: this.payType,
                 keywords: this.keywords,
             };
             this.$http.post(`${baseUrl}/manage/order-list`, param)
