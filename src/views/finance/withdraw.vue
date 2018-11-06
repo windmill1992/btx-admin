@@ -68,7 +68,7 @@ export default {
         },
         search() {
             this.curPage = 1;
-            this.getData();
+            // this.getData();
         },
         getData() {
             this.loading = true;
@@ -111,7 +111,7 @@ export default {
         },
     },
     mounted() {
-        this.getData();
+        // this.getData();
     }
 }
 </script>
