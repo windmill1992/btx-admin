@@ -10,6 +10,8 @@ import Withdraw from '@/views/finance/withdraw'
 
 import Users from '@/views/user/users'
 
+import Fee from '@/views/system/fee'
+
 let routes = [
     {
         path: '/login',
@@ -35,10 +37,10 @@ let routes = [
         ]
     },
     {
-        path: '/system',
+        path: '/fund',
         component: Home,
         name: '资金管理',
-        iconCls: 'el-icon-setting',
+        iconCls: 'el-icon-fund',
         children: [
             { path: '/withdraw', component: Withdraw, name: '提现管理' },
         ]
@@ -50,6 +52,15 @@ let routes = [
         iconCls: 'el-icon-user',
         children: [
             { path: '/users', component: Users, name: '用户' },
+        ]
+    },
+    {
+        path: '/system',
+        component: Home,
+        name: '系统管理',
+        iconCls: 'el-icon-setting',
+        children: [
+            { path: '/fee', component: Fee, name: '手续费配置' },
         ]
     },
     {

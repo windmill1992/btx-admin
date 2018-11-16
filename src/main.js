@@ -27,6 +27,10 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  let uid = sessionStorage.userId;
+  if(uid){
+    axios.defaults.headers.userId = uid;
+  }
   if (to.path == '/login') {
     sessionStorage.removeItem('user');
   }

@@ -74,6 +74,7 @@ export default {
                 if(this.checked){
                   loginParams.password = this.formdata.password;
                 }
+                sessionStorage.setItem('userId', res.data.resultData.userId)
                 sessionStorage.setItem('user', JSON.stringify(loginParams));
                 this.$router.push({ path: '/index' });
               }else{
@@ -83,8 +84,9 @@ export default {
               this.$message.error(res.data.resultMsg);
             }
           })
-          .catch(() => {
+          .catch(err => {
             this.logining = false;
+            console.log(err);
             this.$message.error('登录错误！');
           })
         } else {

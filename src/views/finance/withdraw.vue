@@ -4,9 +4,9 @@
             <p class="title fl">提现列表</p>
             <div class="fr">
                 <el-input v-model="keywords" placeholder="搜索用户手机号／用户名" class="fl" style="width: 200px;"></el-input>
-                <el-select v-model="orderStatus" placeholder="提现状态" class="fl">
-                    <el-option value="" label="全部"></el-option>
-                    <el-option :value="1" label="进行中"></el-option>
+                <el-select v-model="status" placeholder="提现状态" class="fl">
+                    <el-option value="0" label="全部"></el-option>
+                    <el-option :value="1" label="申请中"></el-option>
                     <el-option :value="2" label="已完成"></el-option>
                 </el-select>
                 <el-button type="primary" class="fl" @click="search">搜索</el-button>
@@ -29,7 +29,7 @@
                     <template slot-scope="scope">
                         <div class="flex fcen">
                             <el-button type="info" class="btn" @click="showDetail(scope.row)">详情</el-button>
-                            <el-button type="primary" class="btn" @click="sure(scope.row.withdrawRecordId)">已打款</el-button>
+                            <el-button type="success" class="btn" @click="sure(scope.row.withdrawRecordId)" v-if="scope.row.status == 1"确认已打款</el-button>
                         </div>
                     </template>
                 </el-table-column>
@@ -42,8 +42,13 @@
             <div class="edit-d">
                 <p class="txt">订单编号：{{detailInfo.orderNo}}</p>
                 <p class="txt">商家名称：{{detailInfo.merchantName}}</p>
-                <p class="txt">提现金额{{detailInfo.payPrice}}</p>
-                <p class="txt">提现时间{{detailInfo.payUserName}}</p>
+                <p class="txt">提现金额：{{detailInfo.payPrice}}</p>
+                <p class="txt">姓名：{{detailInfo.userName}}</p>
+                <p class="txt">联系电话：{{detailInfo.mobile}}</p>
+                <p class="txt">提现卡号：{{detailInfo.cardNo}}</p>
+                <p class="txt">开户行：{{detailInfo.bank}}</p>
+                <p class="txt">申请时间：{{detailInfo.applyTime}}</p>
+                <p class="txt" v-if="detailInfo.status == 2">提现时间：{{detailInfo.payUserName}}</p>
             </div>
         </el-dialog>
     </el-row>
@@ -51,7 +56,7 @@
 
 <script>
 import { baseUrl } from './../../api/baseUrl'
-
+const moment = require('moment');
 export default {
     data() {
         return {
@@ -60,7 +65,7 @@ export default {
             pageSize: 20,
             total: 0,
             loading: false,
-            orderStatus: '',
+            status: '0',
             keywords: '',
             title: '提现详情',
             showModal: false,
@@ -74,22 +79,24 @@ export default {
         },
         search() {
             this.curPage = 1;
-            // this.getData();
+            this.getData();
         },
         getData() {
             this.loading = true;
             let param = {
                 pageIndex: this.curPage, 
                 pageSize: this.pageSize,
-                orderStatus: this.orderStatus,
-                keywords: this.keywords,
+                status: this.status,
             };
-            this.$http.post(`${baseUrl}/manage/order-list`, param)
+            this.$http.get(`${baseUrl}/manage/withdraw-list`, { params: param })
             .then(res => {
                 this.loading = false;
                 if(res.data.resultCode == 200 && res.data.resultData){
                     let r = res.data.resultData;
                     if(r.list && r.list.length > 0){
+                        for(let v of r.list){
+                            v.applyTime = moment(new Date(v.applyTime)).format('YYYY-MM-DD HH:mm:ss');
+                        }
                         this.list = r.list;
                         this.total = r.total;
                     }else{
@@ -116,11 +123,22 @@ export default {
             this.showModal = true;
         },
         sure(id) {
-            
+            this.$confirm(`是否已打款？`, '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning',
+            }).then(() => {
+                this.$http.post(`${baseUrl}/manage/pay-capital?withdrawId=${id}`,{})
+                .then(res => {
+                    if(res.data.resultCode == 200 && res.data.resultData){
+                        this.getData();
+                    }
+                })
+            }).catch(() => {});
         }
     },
     mounted() {
-        // this.getData();
+        this.getData();
     }
 }
 </script>

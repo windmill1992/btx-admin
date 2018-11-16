@@ -2,9 +2,9 @@
     <el-row>
         <el-col :span="24" class="tool-bar">
             <p class="title fl">用户列表</p>
-            <div class="fr">
-                <el-input v-model="userName" placeholder="搜索用户名" class="fl"></el-input>
-                <el-button type="primary" @click="search">搜索</el-button>
+            <div class="fr flex">
+                <el-input v-model="userName" placeholder="搜索用户名"></el-input>
+                <el-button type="primary" @click="search" style="margin-left: 20px;">搜索</el-button>
             </div>
         </el-col>
         <el-col :span="24">
