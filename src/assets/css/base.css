@@ -244,3 +244,13 @@ img[mode='fix']{
 .el-table td, .el-table th{
 	height: 32px;
 }
+.el-message{
+	max-width: 1000px;
+	overflow: hidden;
+}
+.el-message__group{
+	padding-right: 40px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}

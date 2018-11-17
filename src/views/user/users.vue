@@ -3,7 +3,7 @@
         <el-col :span="24" class="tool-bar">
             <p class="title fl">用户列表</p>
             <div class="fr flex">
-                <el-input v-model="userName" placeholder="搜索用户名"></el-input>
+                <el-input v-model="mobile" placeholder="搜索手机号"></el-input>
                 <el-button type="primary" @click="search" style="margin-left: 20px;">搜索</el-button>
             </div>
         </el-col>
@@ -33,7 +33,7 @@ export default {
       pageSize: 20,
       total: 0,
       loading: false,
-      userName: '',
+      mobile: '',
     };
   },
   methods: {
@@ -42,7 +42,7 @@ export default {
         let data = {
             pageIndex: this.curPage,
             pageSize: this.pageSize,
-            keywords: this.userName,
+            keywords: this.mobile,
         };
         this.$http.post(`${baseUrl}/manage/user-list`, data)
         .then(res => {

@@ -3,7 +3,7 @@
         <el-col :span="24" class="tool-bar">
             <p class="title fl">商家列表</p>
             <div class="fr">
-                <el-input v-model="keywords" placeholder="搜索用户手机号／用户名" class="fl" style="width: 200px;"></el-input>
+                <el-input v-model="keywords" placeholder="搜索商家名称" class="fl" style="width: 200px;"></el-input>
                 <el-select v-model="auditStatus" placeholder="状态" class="fl">
                     <el-option value="" label="全部"></el-option>
                     <el-option :value="1" label="待审核"></el-option>

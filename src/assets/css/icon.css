@@ -19,3 +19,10 @@
     height: 14px;
     background: url(./../img/fund.png) no-repeat 0 0 / 100% 100%;
 }
+.el-icon-logo::before{
+    content: '';
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    background: url(./../img/logo.png) no-repeat 0 0 / 100% 100%;
+}

@@ -57,10 +57,7 @@ export default {
             }
           }
         })
-      }).catch(() => {
-        this.loading = false;
-        this.$message.error('未知错误！');      
-      });
+      }).catch(() => {})
     },
   },
   mounted() {

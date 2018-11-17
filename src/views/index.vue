@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { baseUrl } from "./../../api/baseUrl"
+import { baseUrl } from "./../api/baseUrl"
 export default {
     data() {
         return {

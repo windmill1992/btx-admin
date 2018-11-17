@@ -184,7 +184,7 @@ export default {
       }
     }
     .logo-width {
-      width: 230px;
+      width: 240px;
     }
     .logo-collapse-width {
       width: 60px;
@@ -215,8 +215,8 @@ export default {
     bottom: 0px;
     overflow: hidden;
     aside {
-      flex: 0 0 230px;
-      width: 230px;
+      flex: 0 0 240px;
+      width: 240px;
       // position: absolute;
       // top: 0px;
       // bottom: 0px;
@@ -243,8 +243,8 @@ export default {
       width: 60px;
     }
     .menu-expanded {
-      flex: 0 0 230px;
-      width: 230px;
+      flex: 0 0 240px;
+      width: 240px;
     }
     .content-container {
       // background: #f1f2f7;
