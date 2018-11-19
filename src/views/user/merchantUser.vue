@@ -43,29 +43,29 @@
                 </div>
                 <div class="box flex">
                     <div class="con">
-                        <div class="flex fcen">
+                        <div class="flex">
                             <p class="label">行业</p>
                             <p class="txt">{{detailInfo.merchantIndustry}}</p>
                         </div>
-                        <div class="flex fcen">
+                        <div class="flex">
                             <p class="label">城市</p>
                             <p class="txt">{{detailInfo.city}}</p>
                         </div>
-                        <div class="flex fcen">
+                        <div class="flex">
                             <p class="label">地址</p>
                             <p class="txt">{{detailInfo.address}}</p>
                         </div>
                     </div>
                     <div class="con">
-                        <div class="flex fcen">
+                        <div class="flex">
                             <p class="label">联系人</p>
                             <p class="txt">{{detailInfo.linkMan}}</p>
                         </div>
-                        <div class="flex fcen">
+                        <div class="flex">
                             <p class="label">手机号</p>
                             <p class="txt">{{detailInfo.linkMobile}}</p>
                         </div>
-                        <div class="flex fcen">
+                        <div class="flex">
                             <p class="label">微信号</p>
                             <p class="txt">{{detailInfo.linkWechat}}</p>
                         </div>
@@ -165,7 +165,6 @@ export default {
 </script>
 
 <style scoped>
-@import url(./../../assets/css/home/table.css);
 .btn{
     margin-right: 5px;
     height: 20px;
@@ -174,6 +173,10 @@ export default {
 }
 .el-input, .el-select{
     margin-right: 10px;
+}
+.edit-d{
+    min-width: 620px;
+    padding-bottom: 20px;
 }
 .edit-d .logo{
     color: #000;
@@ -193,13 +196,24 @@ export default {
     color: #000;
     line-height: 2.5;
 }
+.edit-d .box .con .flex{
+    margin-top: 18px;
+}
 .edit-d .box .label{
     margin-right: 30px;
     color: #999;
     margin-bottom: 0;
+    white-space: nowrap;
+    line-height: 24px;
 }
 .edit-d .box .txt{
     max-width: 200px;
     word-break: break-all;
+    line-height: 24px;
+}
+</style>
+<style>
+.el-dialog--small{
+    min-width: 660px;
 }
 </style>
