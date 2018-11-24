@@ -144,7 +144,7 @@ export default {
 </script>
 
 <style scoped>
-@import url(./../../assets/css/home/table.css);
+@import url(../../assets/css/home/table.css);
 .btn{
     margin-right: 5px;
     height: 20px;

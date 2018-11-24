@@ -31,7 +31,7 @@
             </div>
             <p class="tip">快捷入口</p>
             <div class="quick-enter">
-                <router-link to="merchant" class="item">审核商家</router-link>
+                <router-link to="merchantUser" class="item">审核商家</router-link>
                 <router-link to="withdraw" class="item">管理提现</router-link>
             </div>
         </el-col>
