@@ -11,9 +11,9 @@
                 <el-input v-model="keywords" v-else-if="userType == 2" placeholder="输入用户id查询" class="fl" style="width: 200px;"></el-input>
                 <el-select v-model="orderStatus" placeholder="订单状态" class="fl">
                     <el-option value="" label="全部"></el-option>
-                    <el-option :value="1" label="进行中"></el-option>
+                    <el-option :value="1" label="未支付"></el-option>
                     <el-option :value="2" label="已完成"></el-option>
-                    <el-option :value="3" label="已失效"></el-option>
+                    <el-option :value="3" label="已退款"></el-option>
                 </el-select>
                 <el-button type="primary" class="fl" @click="search">搜索</el-button>
             </div>
@@ -22,10 +22,12 @@
             <el-table :data="list" highlight-current-row v-loading="loading" border style="width: 100%;height: 90%;">
                 <el-table-column type="index" label="序号" width="80"></el-table-column>
                 <el-table-column prop="merchantName" label="商家名称" min-width="180" show-overflow-tooltip></el-table-column>
-                <el-table-column prop="proName" label="商品名称" min-width="200" show-overflow-tooltip></el-table-column>
-                <el-table-column label="发起人" width="150" show-overflow-tooltip>
+                <el-table-column prop="groupId" label="拼团ID" width="90"></el-table-column>
+                <el-table-column prop="groupBuyingName" label="拼团名称" min-width="200" show-overflow-tooltip></el-table-column>
+                <el-table-column prop="payPrice" label="购买价格" width="120"></el-table-column>
+                <el-table-column label="支付用户" width="120" show-overflow-tooltip>
                     <template slot-scope="scope">
-                        <span>{{scope.row.originator.userName}}</span>
+                        <span>{{scope.row.payUserName}}</span>
                     </template>
                 </el-table-column>
                 <el-table-column label="订单类型"width="120" show-overflow-tooltip>
@@ -34,16 +36,9 @@
                         <span v-else-if="scope.row.payType == 2">直接购买</span>
                     </template>
                 </el-table-column>
-                <el-table-column label="订单状态" width="100">
+                <el-table-column label="支付时间" min-width="200" show-overflow-tooltip>
                     <template slot-scope="scope">
-                        <span v-if="scope.row.groupBuyingStatus == 1">进行中</span>
-                        <span v-else-if="scope.row.groupBuyingStatus == 2">已完成</span>
-                        <span v-else-if="scope.row.groupBuyingStatus == 3">已失败</span>
-                    </template>
-                </el-table-column>
-                <el-table-column label="成交时间" min-width="200" show-overflow-tooltip>
-                    <template slot-scope="scope">
-                        <span>{{scope.row.bussinessShowTime}}</span>
+                        <span>{{scope.row.payTime ? scope.row.payTime : '' | fmt}}</span>
                     </template>
                 </el-table-column>
                 <!-- <el-table-column label="操作" min-width="120">
@@ -58,19 +53,6 @@
                 :page-size="pageSize" :total="total" layout="total, prev, pager, next" class="page fr">
             </el-pagination>
         </el-col>
-        <el-dialog :visible.sync="showModal" :title="title" custom-class="edit-dialog" center style="top: 30%;">
-            <div class="edit-d">
-                <p class="txt">商家名称：{{detailInfo.merchantName}}</p>
-                <p class="txt">商品名称：{{detailInfo.proName}}</p>
-                <p class="txt">发起人：{{detailInfo.originator ? detailInfo.originator.userName : ''}}</p>
-                <p class="txt">订单类型：{{detailInfo.payType == 1 ? '拼团购买' : '直接购买'}}</p>
-                <p class="txt" v-if="detailInfo.groupBuyingStatus == 1">订单状态： 进行中</p>
-                <p class="txt" v-else-if="detailInfo.groupBuyingStatus == 2">订单状态： 已完成</p>
-                <p class="txt" v-else-if="detailInfo.groupBuyingStatus == 3">订单状态： 已失败</p>
-                <p class="txt">发起时间：{{detailInfo.bussinessShowTime}}</p>
-                <p class="txt">截止时间：{{detailInfo.groupBuyingEndTimeShow}}</p>
-            </div>
-        </el-dialog>
     </el-row>
 </template>
 
@@ -88,9 +70,6 @@ export default {
             orderStatus: '',
             userType: '',
             keywords: '',
-            title: '订单详情',
-            showModal: false,
-            detailInfo: {},
         }
     },
     methods: {
@@ -122,7 +101,7 @@ export default {
                 param.userId = this.keywords;
             }
             this.loading = true;
-            this.$http.post(`${baseUrl}/manage/order-list`, param)
+            this.$http.post(`${baseUrl}/manage/order-list-v2`, param)
             .then(res => {
                 this.loading = false;
                 if(res.data.resultCode == 200 && res.data.resultData){
@@ -153,10 +132,11 @@ export default {
                 console.log(e);
             })
         },
-        showDetail(row) {
-            row.groupBuyingEndTimeShow = moment(new Date(row.groupBuyingEndTimeShow)).format('YYYY-MM-DD HH:mm:ss');
-            this.detailInfo = Object.assign({}, row);
-            this.showModal = true;
+    },
+    filters: {
+        fmt(t) {
+            if(!t) return '';
+            return moment(new Date(t)).format('YYYY-MM-DD HH:mm:ss');
         },
     },
     mounted() {
