@@ -15,18 +15,19 @@
         </el-col>
         <el-col :span="24">
             <el-table :data="list" highlight-current-row v-loading="loading" border style="width: 100%;height: 90%;">
-                <el-table-column type="index" label="序号" width="80"></el-table-column>
+                <el-table-column type="index" label="序号" width="70"></el-table-column>
                 <el-table-column prop="userId" label="商户ID" width="80"></el-table-column>
                 <el-table-column prop="merchantName" label="商家名称" min-width="220" show-overflow-tooltip></el-table-column>
                 <el-table-column prop="city" label="所在城市" width="150"></el-table-column>
-                <el-table-column prop="merchantIndustry" label="所处行业" width="180"></el-table-column>
+                <el-table-column prop="merchantIndustry" label="所处行业" width="160"></el-table-column>
                 <el-table-column prop="linkMobile" label="联系电话" width="130"></el-table-column>
-                <el-table-column label="操作" min-width="150">
+                <el-table-column label="操作" min-width="160">
                     <template slot-scope="scope">
                         <div class="flex fcen">
                             <el-button type="info" class="btn" @click="showDetail(scope.row)">详情</el-button>
                             <el-button type="success" class="btn" v-if="scope.row.auditStatus == 1" size="small" @click="pass(scope.row.userId, 1)">通过</el-button>
                             <el-button type="danger" class="btn" v-if="scope.row.auditStatus == 1" size="small" @click="pass(scope.row.userId, 0)">不通过</el-button>
+                            <el-button type="danger" class="btn" v-if="scope.row.auditStatus != 3" size="small" @click="offline(scope.row.userId)">下架</el-button>
                         </div>
                     </template>
                 </el-table-column>
@@ -156,6 +157,30 @@ export default {
                     }
                 })
             }).catch(() => {});
+        },
+        offline(id) {
+            this.$confirm('确定下架该商家吗？', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+            }).then(() => {
+                this.$http.post(`${baseUrl}/manage/offline-merchant?userId=${id}`, {})
+                .then(res => {
+                    if(res.data.resultCode == 200 && res.data.resultData){
+                        this.$message.success('下架成功！');
+                        this.getData();
+                    }else{
+                        if(res.data.resultMsg){
+                            this.$message.error(res.data.resultMsg);
+                        }else{
+                            this.$message.error('服务器错误！');
+                        }
+                    }
+                })
+                .catch(err => {
+                    this.$message.error('未知异常！');
+                    console.log(err);
+                })
+            }).catch(() => {})
         },
     },
     mounted() {

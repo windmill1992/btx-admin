@@ -34,6 +34,7 @@
                     <template slot-scope="scope">
                         <div class="flex fcen">
                             <el-button type="info" class="btn" @click="showDetail(scope.row)">详情</el-button>
+                            <el-button type="danger" class="btn" v-if="scope.row.groupBuyingStatus == 1" @click="offline(scope.row.groupBuyingId)">下架</el-button>
                         </div>
                     </template>
                 </el-table-column>
@@ -127,6 +128,30 @@ export default {
             this.detailInfo = Object.assign({}, row);
             this.showModal = true;
         },
+        offline(id) {
+            this.$confirm('确定下架该拼团吗？', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+            }).then(() => {
+                this.$http.post(`${baseUrl}/manage/offline-group-buying?groupBuyingId=${id}`, {})
+                .then(res => {
+                    if(res.data.resultCode == 200 && res.data.resultData){
+                        this.$message.success('下架成功！');
+                        this.getData();
+                    }else{
+                        if(res.data.resultMsg){
+                            this.$message.error(res.data.resultMsg);
+                        }else{
+                            this.$message.error('服务器错误！');
+                        }
+                    }
+                })
+                .catch(err => {
+                    this.$message.error('未知异常！');
+                    console.log(err);
+                })
+            }).catch(() => {})
+        }
     },
     filters: {
       fmt(t) {
