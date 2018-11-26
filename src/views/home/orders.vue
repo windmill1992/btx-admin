@@ -96,7 +96,7 @@ export default {
                 orderStatus: this.orderStatus,
             };
             if(this.userType == 1){
-                param.merchantUserId = this.keywords;
+                param.merchantId = this.keywords;
             }else if(this.userType == 2) {
                 param.userId = this.keywords;
             }
